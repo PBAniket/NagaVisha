@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NagaVisha</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <label class="image-box" for="file-input">
+    <img id="preview" src="" alt="Click to upload image">
+    <span class="upload-label">Click to upload</span>
+  </label>
+  <input type="file" id="file-input" accept="image/*">
+  <div id="result" style="position: absolute; top: 70%; left: 50%; transform: translateX(-50%); font-size: 24px; color: black;"></div>
+
+  <button id="submit">Submit</button>
+
+  <script>
+  const fileInput = document.getElementById('file-input');
+  const preview = document.getElementById('preview');
+  const submitBtn = document.getElementById('submit');
+  const resultDiv = document.getElementById('result');
+
+  fileInput.addEventListener('change', function () {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        preview.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  submitBtn.addEventListener('click', async () => {
+    const file = fileInput.files[0];
+    if (!file) {
+      resultDiv.textContent = "Please select an image first!";
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await fetch("/predict", {
+      method: "POST",
+      body: formData
+    });
+
+    const text = await res.text();
+    resultDiv.textContent = "Prediction: " + text;
+  });
+</script>
+
+
+</body>
+</html>

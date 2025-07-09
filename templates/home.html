@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>NagaVisha</title>
+</head>
+<body>
+    <div>
+        <h1>NagaVisha</h1>
+        <div><h2>Check if the snake is venomous or not</h2></div>
+        <div><a href="{{ url_for('classify') }}"><button id="btn">Classify ⭢</button></a></div>
+    </div>
+</body>
+</html>
